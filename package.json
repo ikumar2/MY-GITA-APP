@@ -9,9 +9,25 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/groq": "^3.0.24",
+    "@ai-sdk/react": "^3.0.93",
+    "@huggingface/inference": "^4.13.12",
+    "@huggingface/transformers": "^3.8.1",
+    "@langchain/community": "^1.1.16",
+    "@langchain/core": "^1.1.26",
+    "@pinecone-database/pinecone": "^7.0.0",
+    "@xenova/transformers": "^2.17.2",
+    "ai": "^6.0.91",
+    "axios": "^1.13.5",
+    "bottleneck": "^2.19.5",
+    "cheerio": "^1.2.0",
+    "dotenv": "^16.6.1",
+    "langchain": "^1.2.25",
     "next": "16.1.6",
+    "playwright": "^1.58.2",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "react-markdown": "^10.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -22,6 +38,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
