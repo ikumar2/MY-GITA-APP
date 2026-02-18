@@ -1,4 +1,4 @@
-# 🙏 Gita AI Guide - Bhagavad Gita AI Assistant
+# 🙏 Gita Guide: AI Research Tool as Bhagavad Gita AI Assistant
 
 An intelligent AI-powered chat application that provides wisdom and guidance from the Bhagavad Gita using vector search and LLM technology.
 
@@ -30,8 +30,6 @@ my-gita-app/
 ├── scripts/
 │   ├── scrape.ts                 # Scrape verses from VedaBase
 │   └── upload.ts                 # Upload to Pinecone
-├── gita.json                     # Verse data (generated)
-└── .env.example                  # Environment variables template
 ```
 
 ## 🛠️ Tech Stack
