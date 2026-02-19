@@ -9,7 +9,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 async function uploadToPinecone() {
     console.log("🤖 Initializing Local Model...");
     const embeddings = new HuggingFaceTransformersEmbeddings({
-        modelName: "Xenova/all-MiniLM-L6-v2", 
+        model: "Xenova/all-MiniLM-L6-v2", 
     });
 
     const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
