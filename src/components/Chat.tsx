@@ -104,7 +104,7 @@ export default function Chat() {
       </header>
 
       {/* Message Area */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-slate-800 to-blue-900">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-slate-800 to-blue-500">
         {messages.length === 0 && (
           <div className="h-full flex flex-col items-center justify-center">
             <div className="text-center space-y-4">
@@ -133,7 +133,7 @@ export default function Chat() {
               <p className={`text-xs font-bold uppercase tracking-wider mb-2 ${
                 m.role === 'user' ? 'text-blue-100' : 'text-amber-700'
               }`}>
-                {m.role === 'user' ? '👤 You' : '🧙 Sage'}
+                {m.role === 'user' ? '👤 You' : ' Sage'}
               </p>
               <div className={`text-sm leading-relaxed whitespace-pre-wrap ${
                 m.role === 'user' ? 'text-blue-50' : 'text-slate-800'
@@ -181,8 +181,7 @@ export default function Chat() {
 
       {/* Footer */}
       <div className="bg-gradient-to-r from-slate-900 to-blue-900 px-6 py-3 text-center text-xs text-slate-400 border-t border-slate-700/50 space-y-1">
-        <p className="font-semibold text-slate-300">🙏 Non-commercial Educational Resource. Not affiliated with BBT/Vedabase 🙏</p>
-        <p>Based on "Bhagavad-gītā As It Is" by A.C. Bhaktivedanta Swami Prabhupāda</p>
+        <p className="font-semibold text-slate-300">🙏 Non-commercial Educational Resource 🙏</p>
         <p className="text-slate-500">AI responses may vary; always consult authentic scriptures</p>
       </div>
     </div>
