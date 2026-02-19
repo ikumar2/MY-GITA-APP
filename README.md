@@ -43,12 +43,33 @@ my-gita-app/
 
 ## 📋 Prerequisites
 
-- Node.js 18+
-- npm or yarn
+- **Node.js 22+** (LTS) - [Install here](https://nodejs.org)
+- **npm 10+** or yarn
 - API Keys:
   - **Groq API Key** (LLM provider) - [Get here](https://console.groq.com)
   - **Pinecone API Key** (Optional but recommended) - [Get here](https://www.pinecone.io)
   - **HuggingFace API Key** (Optional, for embeddings) - [Get here](https://huggingface.co/settings/tokens)
+
+### ✅ Verify Node Version
+
+```bash
+node -v    # Should show v22.x.x or higher
+npm -v     # Should show 10.x.x or higher
+```
+
+### 📌 Node Version Management (Optional)
+
+If you need to manage multiple Node versions:
+
+```bash
+# Using nvm (recommended)
+nvm install 22
+nvm use 22
+
+# Using Homebrew (macOS)
+brew install node@22
+brew link node@22
+```
 
 ## 🚀 Quick Start
 
@@ -57,6 +78,8 @@ my-gita-app/
 ```bash
 git clone <repository-url>
 cd my-gita-app
+# Ensure you're using Node 22+
+node -v  # Should show v22.x.x or higher
 npm install
 ```
 
