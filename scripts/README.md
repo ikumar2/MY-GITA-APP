@@ -8,7 +8,6 @@ These scripts are used to scrape Bhagavad Gita verses and populate the Pinecone 
 # Ensure you have .env.local with:
 PINECONE_API_KEY=your_key
 PINECONE_INDEX_HOST=your_host
-HUGGINGFACE_API_KEY=your_key (optional, for API-based embeddings)
 ```
 
 ## Scripts
@@ -30,6 +29,8 @@ npx tsx scripts/upload.ts
 ```
 
 **Note:** Requires `gita.json` from the scrape step
+
+Embeddings are generated locally with `Xenova/all-MiniLM-L6-v2`; no Hugging Face API key is needed.
 
 ## Workflow
 

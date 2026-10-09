@@ -15,7 +15,6 @@
   "dependencies": {
     "@ai-sdk/groq": "^3.0.24",
     "@ai-sdk/react": "^3.0.93",
-    "@huggingface/inference": "^4.13.12",
     "@huggingface/transformers": "^3.8.1",
     "@langchain/community": "^1.1.16",
     "@langchain/core": "^1.1.26",

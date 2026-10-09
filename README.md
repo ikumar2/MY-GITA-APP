@@ -35,9 +35,9 @@ my-gita-app/
 ## 🛠️ Tech Stack
 
 - **Frontend**: Next.js 16, React 19, TypeScript, Tailwind CSS
-- **LLM**: Groq (llama-3.3-70b-versatile)
+- **LLM**: Groq (OpenAI GPT-OSS 120B)
 - **Vector DB**: Pinecone
-- **Embeddings**: HuggingFace Transformers
+- **Embeddings**: Local Hugging Face Transformers (`Xenova/all-MiniLM-L6-v2`)
 - **AI SDK**: Vercel AI SDK 6.0
 - **Web Scraping**: Playwright, Cheerio
 
@@ -48,7 +48,6 @@ my-gita-app/
 - API Keys:
   - **Groq API Key** (LLM provider) - [Get here](https://console.groq.com)
   - **Pinecone API Key** (Optional but recommended) - [Get here](https://www.pinecone.io)
-  - **HuggingFace API Key** (Optional, for embeddings) - [Get here](https://huggingface.co/settings/tokens)
 
 ### ✅ Verify Node Version
 
@@ -96,13 +95,12 @@ Edit `.env.local`:
 ```env
 # Required - Groq LLM
 GROQ_API_KEY=your_groq_api_key
+# Optional - Groq model (defaults to openai/gpt-oss-120b)
+GROQ_MODEL=openai/gpt-oss-120b
 
 # Optional - Pinecone Vector Database (for semantic search)
 PINECONE_API_KEY=your_pinecone_api_key
 PINECONE_INDEX_HOST=your_pinecone_host
-
-# Optional - HuggingFace (needed with Pinecone for embeddings)
-HUGGINGFACE_API_KEY=your_huggingface_api_key
 ```
 
 ### 3. Run Development Server
@@ -153,7 +151,7 @@ The app works without Pinecone! The AI will answer based on general knowledge:
 
 ```env
 GROQ_API_KEY=your_groq_api_key
-# Skip PINECONE_* and HUGGINGFACE_API_KEY
+# Skip PINECONE_* to disable semantic search
 ```
 
 ### With Pinecone (Recommended)
@@ -164,8 +162,9 @@ For RAG (Retrieval-Augmented Generation) with actual verses:
 GROQ_API_KEY=your_groq_api_key
 PINECONE_API_KEY=your_key
 PINECONE_INDEX_HOST=your_host
-HUGGINGFACE_API_KEY=your_key
 ```
+
+Embeddings are generated locally, so no Hugging Face API key or hosted-inference credits are required. The first vector-search request downloads the embedding model.
 
 ## 🧪 Development
 
@@ -198,7 +197,7 @@ User Input
 Frontend (Chat.tsx) - Sends to API
     ↓
 API (route.ts)
-    ├─ Generate Embedding (HuggingFace)
+    ├─ Generate Embedding (local Transformers model)
     ├─ Vector Search (Pinecone)
     ├─ Retrieve Relevant Verses
     └─ Generate Response (Groq LLM)
@@ -210,7 +209,7 @@ Frontend - Display in Real-time
 
 ### Vector Search Process
 
-1. User question → Embedding (HuggingFace)
+1. User question → Embedding (local Transformers model)
 2. Query Pinecone with embedding vector
 3. Retrieve top 3 relevant verses
 4. Include verses as context for LLM
@@ -259,9 +258,9 @@ See `.gitignore` for excluded files.
 ```bash
 # Add secrets in Vercel Dashboard:
 GROQ_API_KEY
+GROQ_MODEL (optional)
 PINECONE_API_KEY
 PINECONE_INDEX_HOST
-HUGGINGFACE_API_KEY
 ```
 
 ### Deploy on Other Platforms
@@ -273,9 +272,9 @@ Works on any Node.js hosting (Heroku, Railway, Fly.io, etc.)
 | Variable | Required | Purpose |
 |----------|----------|---------|
 | `GROQ_API_KEY` | ✅ Yes | LLM provider for responses |
+| `GROQ_MODEL` | ❌ Optional | Groq model ID (defaults to `openai/gpt-oss-120b`) |
 | `PINECONE_API_KEY` | ❌ Optional | Vector database for semantic search |
 | `PINECONE_INDEX_HOST` | ❌ Optional | Pinecone index endpoint |
-| `HUGGINGFACE_API_KEY` | ❌ Optional | Embeddings generator |
 
 ## 🐛 Troubleshooting
 
