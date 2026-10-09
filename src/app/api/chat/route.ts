@@ -1,10 +1,12 @@
 import { groq } from '@ai-sdk/groq';
 import { streamText } from 'ai';
 import { getPineconeIndex } from '@/lib/pinecone';
-import { HfInference } from '@huggingface/inference';
+import { HuggingFaceTransformersEmbeddings } from '@langchain/community/embeddings/huggingface_transformers';
 
 export const dynamic = 'force-dynamic';
-const hf = new HfInference(process.env.HUGGINGFACE_API_KEY);
+const embeddings = new HuggingFaceTransformersEmbeddings({
+  model: 'Xenova/all-MiniLM-L6-v2',
+});
 
 export async function POST(req: Request) {
   const isDev = process.env.NODE_ENV !== 'production';
@@ -23,17 +25,12 @@ export async function POST(req: Request) {
     }
 
     let context = '';
-    let usedPinecone = false;
 
     // 2. Vector Search (Pinecone) - only if configured
-    if (process.env.PINECONE_API_KEY && process.env.PINECONE_INDEX_HOST && process.env.HUGGINGFACE_API_KEY) {
+    if (process.env.PINECONE_API_KEY && process.env.PINECONE_INDEX_HOST) {
       try {
         if (isDev) console.log('🔍 Using Pinecone vector search...');
-        const embedding = await hf.featureExtraction({
-          model: 'sentence-transformers/all-MiniLM-L6-v2',
-          inputs: lastMessage,
-        });
-        const queryVector = embedding as number[];
+        const queryVector = await embeddings.embedQuery(lastMessage);
 
         const index = getPineconeIndex();
         const result = await index.query({
@@ -43,11 +40,10 @@ export async function POST(req: Request) {
         });
 
         context = result.matches
-          .map((m: any) => m.metadata?.translation)
-          .filter(Boolean)
+          .map((match) => match.metadata?.translation)
+          .filter((translation): translation is string => typeof translation === 'string')
           .join('\n\n');
-        
-        usedPinecone = true;
+
         if (isDev) console.log(`✅ Retrieved ${result.matches.length} verses from Pinecone`);
       } catch (pineconeError) {
         if (isDev) console.warn('⚠️ Pinecone error:', pineconeError);
@@ -58,13 +54,12 @@ export async function POST(req: Request) {
         console.log('⚠️ Pinecone not configured');
         if (!process.env.PINECONE_API_KEY) console.log('  - PINECONE_API_KEY missing');
         if (!process.env.PINECONE_INDEX_HOST) console.log('  - PINECONE_INDEX_HOST missing');
-        if (!process.env.HUGGINGFACE_API_KEY) console.log('  - HUGGINGFACE_API_KEY missing');
       }
     }
 
     // 3. Streaming Response
     const result = streamText({
-      model: groq('llama-3.3-70b-versatile'),
+      model: groq(process.env.GROQ_MODEL || 'openai/gpt-oss-120b'),
       system: context 
         ? `You are a Bhagavad Gita expert. Use the following verses from the Gita to inform your answer:\n\n${context}`
         : 'You are a knowledgeable expert on the Bhagavad Gita. Provide insightful answers based on your knowledge.',
